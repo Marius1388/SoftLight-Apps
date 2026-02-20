@@ -61,24 +61,30 @@
       line-height: 1.6;
     }
 
-    /* ── Header / Hero ────────────────────────────────────── */
+    /* ── Header / Hero image ──────────────────────────────── */
     header {
-      text-align: center;
-      padding: 80px 24px 64px;
-      background: linear-gradient(160deg, #0D1117 0%, #161B22 100%);
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      background: url('Header image.png') center / cover no-repeat;
       border-bottom: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
     }
 
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 40% at 20% 30%, rgba(79,142,247,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 50% at 80% 70%, rgba(167,139,250,0.10) 0%, transparent 70%);
-      pointer-events: none;
+    /* ── Hero text below the image ────────────────────────── */
+    .hero-text {
+      text-align: center;
+      padding: 48px 24px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .studio-icon {
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 24px;
+      object-fit: cover;
+      margin: 0 auto 24px;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 32px rgba(79,142,247,0.18);
     }
 
     .studio-name {
@@ -93,9 +99,9 @@
     }
 
     .studio-tagline {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: var(--text-secondary);
-      max-width: 520px;
+      max-width: 480px;
       margin: 0 auto;
     }
 
@@ -273,6 +279,11 @@
 
     /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 600px) {
+      .studio-icon {
+        width: 72px;
+        height: 72px;
+      }
+
       .app-card {
         flex-direction: column;
         padding: 28px;
@@ -289,10 +300,12 @@
 <body>
 
   <!-- ── Hero ─────────────────────────────────────────────── -->
-  <header>
+  <header></header>
+
+  <div class="hero-text">
     <h1 class="studio-name">SoftLight Apps</h1>
     <p class="studio-tagline">Building thoughtful mobile apps that make everyday life easier.</p>
-  </header>
+  </div>
 
   <!-- ── About ─────────────────────────────────────────────── -->
   <section id="about">
@@ -340,6 +353,7 @@
 
   <!-- ── Contact ───────────────────────────────────────────── -->
   <section id="contact">
+    <img src="developer icon.png" alt="SoftLight Apps Logo" class="studio-icon" />
     <p class="section-label">Contact</p>
     <h2 class="section-title">Get in touch</h2>
     <p class="section-body">
