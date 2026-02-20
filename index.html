@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  SOFTLIGHT APPS - Developer Website
+  One-page site for app-ads.txt compliance & product showcase
+  ============================================================
+
+  INSTRUCTIONS FOR USE:
+  ─────────────────────
+  1. HOSTING (GitHub Pages):
+     - Push this file and medilens-logo.png to your GitHub repo
+       named: yourusername.github.io
+     - Enable Pages: Settings → Pages → Deploy from branch → main / root
+     - Your site will be live at: https://yourusername.github.io
+
+  2. app-ads.txt (AdMob verification):
+     - Create a file named: app-ads.txt  (in the same folder as this file)
+     - Content: google.com, pub-2965864084207506, DIRECT, f08c47fec0942fa0
+     - It must be accessible at: https://yourusername.github.io/app-ads.txt
+
+  3. CUSTOMISE THIS PAGE:
+     - Replace "SoftLight Apps" with your studio name if different
+     - Update the Google Play link (search for "PLAY_STORE_LINK")
+     - Update the contact email (search for "CONTACT_EMAIL")
+     - Replace the tagline and description as needed
+
+  4. CONNECT TO PLAY CONSOLE:
+     - Google Play Console → Setup → Store settings → Website
+     - Enter: https://yourusername.github.io
+     - Save
+
+  ============================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoftLight Apps</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-primary:   #4F8EF7;
+      --brand-secondary: #A78BFA;
+      --brand-accent:    #34D399;
+      --dark-bg:         #0D1117;
+      --card-bg:         #161B22;
+      --border:          #30363D;
+      --text-primary:    #F0F6FC;
+      --text-secondary:  #8B949E;
+      --radius:          16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* ── Header / Hero ────────────────────────────────────── */
+    header {
+      text-align: center;
+      padding: 80px 24px 64px;
+      background: linear-gradient(160deg, #0D1117 0%, #161B22 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 30%, rgba(79,142,247,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 80% 70%, rgba(167,139,250,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .studio-name {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .studio-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── Section Layout ───────────────────────────────────── */
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brand-primary);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-body {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+
+    /* ── About ────────────────────────────────────────────── */
+    #about {
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── App Card ─────────────────────────────────────────── */
+    #apps {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .app-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+      margin-top: 40px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .app-card:hover {
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 1px var(--brand-primary), 0 8px 32px rgba(79,142,247,0.12);
+    }
+
+    .app-logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 22px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .app-info { flex: 1; min-width: 0; }
+
+    .app-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .app-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(52,211,153,0.15);
+      color: var(--brand-accent);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-bottom: 14px;
+    }
+
+    .app-description {
+      color: var(--text-secondary);
+      font-size: 0.975rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .feature-list li {
+      font-size: 0.85rem;
+      background: rgba(79,142,247,0.08);
+      border: 1px solid rgba(79,142,247,0.2);
+      color: var(--brand-primary);
+      border-radius: 8px;
+      padding: 4px 12px;
+    }
+
+    .btn-store {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--brand-primary);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 22px;
+      border-radius: 10px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-store:hover {
+      background: #3a7de0;
+      transform: translateY(-1px);
+    }
+
+    /* ── Contact ──────────────────────────────────────────── */
+    #contact {
+      text-align: center;
+    }
+
+    #contact .section-body {
+      margin: 0 auto 28px;
+    }
+
+    .btn-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--brand-primary);
+      color: var(--brand-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 24px;
+      border-radius: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-email:hover {
+      background: var(--brand-primary);
+      color: #fff;
+    }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--text-primary); }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .app-card {
+        flex-direction: column;
+        padding: 28px;
+        gap: 20px;
+      }
+
+      .app-logo {
+        width: 72px;
+        height: 72px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <header>
+    <h1 class="studio-name">SoftLight Apps</h1>
+    <p class="studio-tagline">Building thoughtful mobile apps that make everyday life easier.</p>
+  </header>
+
+  <!-- ── About ─────────────────────────────────────────────── -->
+  <section id="about">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Who we are</h2>
+    <p class="section-body">
+      SoftLight Apps is an independent mobile app studio focused on creating
+      privacy-first, beautifully designed apps for Android and iOS.
+      We build tools that are simple to use, work offline, and put users in control of their data.
+    </p>
+  </section>
+
+  <!-- ── Apps ──────────────────────────────────────────────── -->
+  <section id="apps">
+    <p class="section-label">Our Apps</p>
+    <h2 class="section-title">What we've built</h2>
+
+    <div class="app-card">
+      <img src="medilens-logo.png" alt="MediLens App Icon" class="app-logo" />
+      <div class="app-info">
+        <h3 class="app-name">MediLens</h3>
+        <span class="app-badge">Available on Android</span>
+        <p class="app-description">
+          MediLens is a medication scanner and reminder app that uses advanced
+          OCR camera technology to instantly identify medicines from their labels.
+          Supporting 6 languages and a database of 98,000+ medicines, MediLens helps
+          users manage their medication schedules safely and confidently — all offline.
+        </p>
+        <ul class="feature-list">
+          <li>📷 OCR Medicine Scanner</li>
+          <li>💊 98,000+ Medicines</li>
+          <li>⏰ Smart Reminders</li>
+          <li>🌍 6 Languages</li>
+          <li>🔒 Privacy First</li>
+          <li>📴 Works Offline</li>
+        </ul>
+        <!-- PLAY_STORE_LINK: Replace # with your Google Play URL -->
+        <a href="#" class="btn-store" target="_blank" rel="noopener">
+          ▶ &nbsp;Google Play
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ───────────────────────────────────────────── -->
+  <section id="contact">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Get in touch</h2>
+    <p class="section-body">
+      Have a question, feedback, or a support request? We'd love to hear from you.
+    </p>
+    <!-- CONTACT_EMAIL: Replace with your real email address -->
+    <a href="mailto:contact@softlightapps.com" class="btn-email">
+      ✉ &nbsp;contact@softlightapps.com
+    </a>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
+  <footer>
+    <p>© 2026 SoftLight Apps · <a href="app-ads.txt">app-ads.txt</a></p>
+  </footer>
+
+</body>
+</html>
