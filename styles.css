@@ -94,7 +94,14 @@
 }
 
 /* ─── Base ─── */
-html { scroll-behavior: smooth; background: var(--color-bg); color: var(--color-on-surface); }
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+  color: var(--color-on-surface);
+  /* Safety net: one too-wide element must not give the page sideways scroll
+     (which makes content look padded only on the left on mobile). */
+  overflow-x: clip;
+}
 
 body {
   background: var(--color-bg);
@@ -140,6 +147,24 @@ body {
 }
 
 .header-actions { display: flex; align-items: center; gap: 10px; }
+.menu-controls { display: flex; align-items: center; gap: 10px; }
+
+/* Hamburger — hidden on desktop, replaces the actions row on mobile */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--color-surface-container);
+  border: 1px solid color-mix(in srgb, var(--color-outline-var) 60%, transparent);
+  color: var(--color-on-surface-var);
+}
+.nav-toggle .icon-close { display: none; }
+.site-header.menu-open .nav-toggle .icon-close { display: block; }
+.site-header.menu-open .nav-toggle .icon-menu { display: none; }
 
 /* Language pill switch */
 .lang-switch {
@@ -466,6 +491,54 @@ footer a:hover { text-decoration: underline; }
 }
 
 @media (max-width: 640px) {
-  .app-card { flex-direction: column; padding: 28px; gap: 20px; }
+  .app-card { flex-direction: column; padding: 24px 20px; gap: 20px; }
   .app-logo { width: 72px; height: 72px; border-radius: 18px; }
+
+  /* ── Mobile header: brand + hamburger; actions collapse into a dropdown ── */
+  .site-header .container { padding-top: 10px; padding-bottom: 10px; }
+  .nav-toggle { display: flex; }
+
+  .header-actions {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 20px;
+    right: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 24px;
+    background: var(--color-surface-lowest);
+    box-shadow: var(--shadow-raised);
+  }
+  .site-header.menu-open .header-actions { display: flex; }
+
+  /* Language + theme side by side inside the menu */
+  .menu-controls { justify-content: space-between; }
+  /* Contact becomes a full-width primary action */
+  .header-actions .btn-primary { width: 100%; padding: 12px 16px; }
+
+  /* ── Mobile content: tighter rhythm, nothing crammed ── */
+  section { padding: 48px 0; }
+  .hero-grid { padding-top: 36px; padding-bottom: 40px; gap: 36px; }
+  .hero h1 { overflow-wrap: break-word; hyphens: auto; }
+  .hero-body { font-size: 1.05rem; margin-top: 18px; }
+  .hero-ctas { margin-top: 28px; }
+  .trust-row { margin-top: 28px; }
+  .hero-frame { padding: 10px; border-radius: 28px; }
+  .feature-list { margin: 16px 0 22px; }
+  .contact-card { padding: 32px 18px; }
+  /* Long email address must wrap inside its button, not push past the screen */
+  .contact-card .btn-primary {
+    max-width: 100%;
+    font-size: 13px;
+    padding: 12px 18px;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stack the hero CTAs — side-by-side they wrap awkwardly on small phones */
+  .hero-ctas { flex-direction: column; align-items: stretch; }
 }

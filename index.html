@@ -48,22 +48,33 @@
         <img src="developer icon.png" alt="" />
         <span>SoftLight Apps</span>
       </a>
-      <div class="header-actions">
-        <div class="lang-switch" role="group" aria-label="Language">
-          <button type="button" data-lang="en" aria-pressed="true">EN</button>
-          <button type="button" data-lang="ro" aria-pressed="false">RO</button>
+      <div class="header-actions" id="header-menu">
+        <div class="menu-controls">
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="ro" aria-pressed="false">RO</button>
+          </div>
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme">
+            <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+          </button>
         </div>
-        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme">
-          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-          </svg>
-        </button>
         <a href="#contact" class="btn-primary btn-sm" data-i18n="header.contact">Contact</a>
       </div>
+      <!-- Mobile-only hamburger; the actions above collapse into a dropdown -->
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="Open menu">
+        <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
     </div>
   </header>
 
@@ -252,6 +263,8 @@
         "meta.title": "SoftLight Apps — Thoughtful mobile apps",
         "meta.description": "SoftLight Apps is an independent mobile app studio creating privacy-first, beautifully designed apps for Android and iOS.",
         "header.contact": "Contact",
+        "header.openMenu": "Open menu",
+        "header.closeMenu": "Close menu",
         "hero.eyebrow": "Independent app studio",
         "hero.title1": "Thoughtful apps,",
         "hero.title2": "built with care.",
@@ -298,6 +311,8 @@
         "meta.title": "SoftLight Apps — Aplicații mobile create cu grijă",
         "meta.description": "SoftLight Apps este un studio independent de aplicații mobile, care creează aplicații frumos proiectate, cu confidențialitatea pe primul loc, pentru Android și iOS.",
         "header.contact": "Contact",
+        "header.openMenu": "Deschide meniul",
+        "header.closeMenu": "Închide meniul",
         "hero.eyebrow": "Studio independent de aplicații",
         "hero.title1": "Aplicații gândite atent,",
         "hero.title2": "create cu grijă.",
@@ -344,8 +359,10 @@
 
     var currentLang = "en";
     /* Grabbed before language detection runs — applyLang() calls
-       updateThemeLabel(), which needs this to already be set. */
+       updateThemeLabel() and updateNavLabel(), which need these already set. */
     var themeToggle = document.getElementById("theme-toggle");
+    var siteHeader = document.querySelector(".site-header");
+    var navToggle = document.getElementById("nav-toggle");
 
     function applyLang(lang) {
       if (!I18N[lang]) lang = "en";
@@ -363,6 +380,7 @@
         btn.setAttribute("aria-pressed", String(btn.getAttribute("data-lang") === lang));
       });
       updateThemeLabel();
+      updateNavLabel();
     }
 
     document.querySelectorAll(".lang-switch button").forEach(function (btn) {
@@ -406,6 +424,28 @@
     });
 
     updateThemeLabel();
+
+    /* ─── Mobile menu (hamburger) ─── */
+    function updateNavLabel() {
+      var open = siteHeader.classList.contains("menu-open");
+      navToggle.setAttribute("aria-label", I18N[currentLang][open ? "header.closeMenu" : "header.openMenu"]);
+    }
+
+    function setMenu(open) {
+      siteHeader.classList.toggle("menu-open", open);
+      navToggle.setAttribute("aria-expanded", String(open));
+      updateNavLabel();
+    }
+
+    navToggle.addEventListener("click", function () {
+      setMenu(!siteHeader.classList.contains("menu-open"));
+    });
+    // Navigating from the menu (Contact) should also close it
+    document.querySelector(".header-actions .btn-primary").addEventListener("click", function () {
+      setMenu(false);
+    });
+
+    updateNavLabel();
     document.getElementById("footer-year").textContent = String(new Date().getFullYear());
   </script>
 
