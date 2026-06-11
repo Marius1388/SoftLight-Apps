@@ -1,0 +1,16 @@
+[Unit]
+Description=MediLens marketing site (TanStack Start SSR)
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/srv/medilens
+ExecStart=/usr/bin/node /srv/medilens/server.prod.mjs
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

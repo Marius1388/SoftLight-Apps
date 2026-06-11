@@ -1,0 +1,34 @@
+# Caddy config for softlightapps.com — HTTPS is automatic (Let's Encrypt).
+# Lives at /etc/caddy/Caddyfile on the VPS.
+
+softlightapps.com {
+	root * /var/www/softlightapps
+	encode gzip
+	file_server
+}
+
+www.softlightapps.com {
+	redir https://softlightapps.com{uri} permanent
+}
+
+medilens.softlightapps.com {
+	encode gzip
+	root * /srv/medilens/dist/client
+
+	# Hashed build assets never change — cache forever.
+	@immutable path /assets/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	# Medicine data shards: cache for a day, revalidate after.
+	@data path /data/*
+	header @data Cache-Control "public, max-age=86400"
+
+	# Serve static files directly; everything else goes to the SSR server.
+	@static file
+	handle @static {
+		file_server
+	}
+	handle {
+		reverse_proxy localhost:3000
+	}
+}
