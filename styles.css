@@ -232,6 +232,10 @@ body {
 
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
+.text-link-row { margin: -8px 0 26px; font-size: 15px; }
+.text-link-row a { font-weight: 600; color: var(--color-primary); text-decoration: none; }
+.text-link-row a:hover { text-decoration: underline; }
+
 /* ─── Cards & primitives ─── */
 .card-soft {
   background: var(--color-surface-lowest);
