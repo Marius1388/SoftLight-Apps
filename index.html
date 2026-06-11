@@ -3,372 +3,344 @@
   ============================================================
   SOFTLIGHT APPS - Developer Website
   One-page site for app-ads.txt compliance & product showcase
+  Design system: "Editorial Empathy" (shared with medilens-web)
   ============================================================
 
-  INSTRUCTIONS FOR USE:
-  ─────────────────────
-  1. HOSTING (GitHub Pages):
-     - Push this file and medilens-logo.png to your GitHub repo
-       named: Marius1388.github.io
-     - Enable Pages: Settings → Pages → Deploy from branch → main / root
-     - Your site will be live at: https://Marius1388.github.io
-
-  2. app-ads.txt (AdMob verification):
-     - Create a file named: app-ads.txt  (in the same folder as this file)
-     - Content: google.com, pub-2965864084207506, DIRECT, f08c47fec0942fa0
-     - It must be accessible at: https://Marius1388.github.io/app-ads.txt
-
-  3. CUSTOMISE THIS PAGE:
-     - Replace "SoftLight Apps" with your studio name if different
-     - Update the Google Play link (search for "PLAY_STORE_LINK")
-     - Update the contact email (search for "CONTACT_EMAIL")
-     - Replace the tagline and description as needed
-
-  4. CONNECT TO PLAY CONSOLE:
-     - Google Play Console → Setup → Store settings → Website
-     - Enter: https://Marius1388.github.io
-     - Save
-
+  - Hosted on GitHub Pages; app-ads.txt must stay reachable at /app-ads.txt
+  - Language: localStorage "lang" -> browser language -> geo lookup (RO -> Romanian)
+  - Theme: localStorage "theme" -> prefers-color-scheme, toggled via data-theme
   ============================================================
 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SoftLight Apps</title>
-  <style>
-    /* ── Reset & Base ─────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <title>SoftLight Apps — Thoughtful mobile apps</title>
+  <meta name="description" content="SoftLight Apps is an independent mobile app studio creating privacy-first, beautifully designed apps for Android and iOS." />
 
-    :root {
-      --brand-primary:   #4F8EF7;
-      --brand-secondary: #A78BFA;
-      --brand-accent:    #34D399;
-      --dark-bg:         #0D1117;
-      --card-bg:         #161B22;
-      --border:          #30363D;
-      --text-primary:    #F0F6FC;
-      --text-secondary:  #8B949E;
-      --radius:          16px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--dark-bg);
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
-
-    /* ── Header / Hero image ──────────────────────────────── */
-    header {
-      width: 100%;
-      aspect-ratio: 16 / 7;
-      background: url('Header image.png') center / cover no-repeat;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* ── Hero text below the image ────────────────────────── */
-    .hero-text {
-      text-align: center;
-      padding: 48px 24px 40px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .studio-icon {
-      display: block;
-      width: 100px;
-      height: 100px;
-      border-radius: 24px;
-      object-fit: cover;
-      margin: 0 auto 24px;
-      border: 2px solid var(--border);
-      box-shadow: 0 0 32px rgba(79,142,247,0.18);
-    }
-
-    .studio-name {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 12px;
-    }
-
-    .studio-tagline {
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      color: var(--text-secondary);
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    /* ── Section Layout ───────────────────────────────────── */
-    section {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 72px 24px;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--brand-primary);
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    .section-body {
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-      max-width: 600px;
-    }
-
-    /* ── About ────────────────────────────────────────────── */
-    #about {
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* ── App Card ─────────────────────────────────────────── */
-    #apps {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .app-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 40px;
-      display: flex;
-      gap: 36px;
-      align-items: flex-start;
-      margin-top: 40px;
-      transition: border-color 0.25s, box-shadow 0.25s;
-    }
-
-    .app-card:hover {
-      border-color: var(--brand-primary);
-      box-shadow: 0 0 0 1px var(--brand-primary), 0 8px 32px rgba(79,142,247,0.12);
-    }
-
-    .app-logo {
-      width: 96px;
-      height: 96px;
-      border-radius: 22px;
-      object-fit: cover;
-      flex-shrink: 0;
-      border: 1px solid var(--border);
-    }
-
-    .app-info { flex: 1; min-width: 0; }
-
-    .app-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .app-badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      background: rgba(52,211,153,0.15);
-      color: var(--brand-accent);
-      border: 1px solid rgba(52,211,153,0.3);
-      border-radius: 20px;
-      padding: 2px 10px;
-      margin-bottom: 14px;
-    }
-
-    .app-description {
-      color: var(--text-secondary);
-      font-size: 0.975rem;
-      margin-bottom: 20px;
-    }
-
-    .feature-list {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .feature-list li {
-      font-size: 0.85rem;
-      background: rgba(79,142,247,0.08);
-      border: 1px solid rgba(79,142,247,0.2);
-      color: var(--brand-primary);
-      border-radius: 8px;
-      padding: 4px 12px;
-    }
-
-    .btn-store {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--brand-primary);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 10px 22px;
-      border-radius: 10px;
-      transition: background 0.2s, transform 0.15s;
-    }
-
-    .btn-store:hover {
-      background: #3a7de0;
-      transform: translateY(-1px);
-    }
-
-    /* ── Contact ──────────────────────────────────────────── */
-    #contact {
-      text-align: center;
-    }
-
-    #contact .section-body {
-      margin: 0 auto 28px;
-    }
-
-    .btn-email {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--brand-primary);
-      color: var(--brand-primary);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 10px 24px;
-      border-radius: 10px;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .btn-email:hover {
-      background: var(--brand-primary);
-      color: #fff;
-    }
-
-    /* ── Footer ───────────────────────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 32px 24px;
-      border-top: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-    }
-
-    footer a {
-      color: var(--text-secondary);
-      text-decoration: none;
-    }
-
-    footer a:hover { color: var(--text-primary); }
-
-    /* ── Responsive ───────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .studio-icon {
-        width: 72px;
-        height: 72px;
+  <!-- Runs before first paint so the page never flashes the wrong theme. -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t !== "light" && t !== "dark") {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
       }
+    })();
+  </script>
 
-      .app-card {
-        flex-direction: column;
-        padding: 28px;
-        gap: 20px;
-      }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&family=Plus+Jakarta+Sans:wght@500..800&display=swap" rel="stylesheet" />
 
-      .app-logo {
-        width: 72px;
-        height: 72px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- ── Hero ─────────────────────────────────────────────── -->
-  <header></header>
+  <!-- ── Header ──────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#" class="brand">
+        <img src="developer icon.png" alt="" />
+        <span>SoftLight Apps</span>
+      </a>
+      <div class="header-actions">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="ro" aria-pressed="false">RO</button>
+        </div>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme">
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+        <a href="#contact" class="btn-primary btn-sm" data-i18n="header.contact">Contact</a>
+      </div>
+    </div>
+  </header>
 
-  <div class="hero-text">
-    <h1 class="studio-name">SoftLight Apps</h1>
-    <p class="studio-tagline">Building thoughtful mobile apps that make everyday life easier.</p>
-  </div>
+  <!-- ── Hero ────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow" data-i18n="hero.eyebrow">Independent app studio</p>
+        <h1>
+          <span data-i18n="hero.title1">Thoughtful apps,</span><br />
+          <span class="accent" data-i18n="hero.title2">built with care.</span>
+        </h1>
+        <p class="hero-body" data-i18n="hero.body">
+          SoftLight Apps is an independent mobile studio creating privacy-first,
+          beautifully designed apps for Android and iOS — simple to use, working
+          offline, and putting you in control of your data.
+        </p>
+        <div class="hero-ctas">
+          <a href="#apps" class="btn-primary btn-lg" data-i18n="hero.ctaApps">See our apps</a>
+          <a href="#contact" class="btn-outline btn-lg" data-i18n="hero.ctaContact">Get in touch</a>
+        </div>
+        <div class="trust-row">
+          <span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span data-i18n="hero.trust1">Privacy first</span>
+          </span>
+          <span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span data-i18n="hero.trust2">Works offline</span>
+          </span>
+          <span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+            <span data-i18n="hero.trust3">Android &amp; iOS</span>
+          </span>
+        </div>
+      </div>
 
-  <!-- ── About ─────────────────────────────────────────────── -->
-  <section id="about">
-    <p class="section-label">About</p>
-    <h2 class="section-title">Who we are</h2>
-    <p class="section-body">
-      SoftLight Apps is an independent mobile app studio focused on creating
-      privacy-first, beautifully designed apps for Android and iOS.
-      We build tools that are simple to use, work offline, and put users in control of their data.
-    </p>
+      <div class="hero-visual">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="hero-frame">
+          <img src="Header image.png" alt="SoftLight Apps artwork" />
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- ── Apps ──────────────────────────────────────────────── -->
-  <section id="apps">
-    <p class="section-label">Our Apps</p>
-    <h2 class="section-title">What we've built</h2>
+  <!-- ── About ───────────────────────────────────────────────── -->
+  <section id="about" class="section-alt">
+    <div class="container">
+      <p class="eyebrow" data-i18n="about.eyebrow">About</p>
+      <h2 class="section-title" data-i18n="about.title">Who we are</h2>
+      <p class="section-body" data-i18n="about.body">
+        SoftLight Apps is an independent mobile app studio focused on creating
+        privacy-first, beautifully designed apps for Android and iOS.
+        We build tools that are simple to use, work offline, and put users in
+        control of their data.
+      </p>
+    </div>
+  </section>
 
-    <div class="app-card">
-      <img src="medilens-logo.png" alt="MediLens App Icon" class="app-logo" />
-      <div class="app-info">
-        <h3 class="app-name">MediLens</h3>
-        <span class="app-badge">Available on Android</span>
-        <p class="app-description">
-          MediLens is a medication scanner and reminder app that uses advanced
-          OCR camera technology to instantly identify medicines from their labels.
-          Supporting 6 languages and a database of 98,000+ medicines, MediLens helps
-          users manage their medication schedules safely and confidently — all offline.
+  <!-- ── Apps ────────────────────────────────────────────────── -->
+  <section id="apps">
+    <div class="container">
+      <p class="eyebrow" data-i18n="apps.eyebrow">Our apps</p>
+      <h2 class="section-title" data-i18n="apps.title">What we've built</h2>
+
+      <div class="app-card card-soft">
+        <img src="medilens-logo.png" alt="MediLens app icon" class="app-logo" />
+        <div class="app-info">
+          <h3 class="app-name">MediLens</h3>
+          <span class="app-badge"><span class="dot"></span><span data-i18n="apps.medilens.badge">Available on Android</span></span>
+          <p class="app-description" data-i18n="apps.medilens.body">
+            MediLens is a medication scanner and reminder app that uses advanced
+            OCR camera technology to instantly identify medicines from their labels.
+            Supporting 6 languages and a database of 98,000+ medicines, MediLens helps
+            users manage their medication schedules safely and confidently — all offline.
+          </p>
+          <ul class="feature-list">
+            <li data-i18n="apps.medilens.f1">📷 OCR medicine scanner</li>
+            <li data-i18n="apps.medilens.f2">💊 98,000+ medicines</li>
+            <li data-i18n="apps.medilens.f3">⏰ Smart reminders</li>
+            <li data-i18n="apps.medilens.f4">🌍 6 languages</li>
+            <li data-i18n="apps.medilens.f5">🔒 Privacy first</li>
+            <li data-i18n="apps.medilens.f6">📴 Works offline</li>
+          </ul>
+          <a href="https://play.google.com/store/apps/details?id=com.medilens.app"
+             class="btn-primary btn-lg" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 3.5v17a.8.8 0 0 0 1.2.7l14.9-8.5a.8.8 0 0 0 0-1.4L5.2 2.8A.8.8 0 0 0 4 3.5z"/>
+            </svg>
+            <span data-i18n="apps.medilens.cta">Get it on Google Play</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ─────────────────────────────────────────────── -->
+  <section id="contact" class="section-alt">
+    <div class="container">
+      <div class="contact-card card-soft">
+        <img src="developer icon.png" alt="SoftLight Apps logo" class="studio-icon" />
+        <p class="eyebrow" data-i18n="contact.eyebrow">Contact</p>
+        <h2 class="section-title" data-i18n="contact.title">Get in touch</h2>
+        <p class="section-body" data-i18n="contact.body">
+          Have a question, feedback, or a support request? We'd love to hear from you.
         </p>
-        <ul class="feature-list">
-          <li>📷 OCR Medicine Scanner</li>
-          <li>💊 98,000+ Medicines</li>
-          <li>⏰ Smart Reminders</li>
-          <li>🌍 6 Languages</li>
-          <li>🔒 Privacy First</li>
-          <li>📴 Works Offline</li>
-        </ul>
-        <!-- PLAY_STORE_LINK: Replace # with your Google Play URL -->
-        <a href="https://play.google.com/store/apps/details?id=com.medilens.app"
-           class="btn-store" target="_blank" rel="noopener">
-          ▶ &nbsp;Google Play
+        <a href="mailto:mariuscristian.bancila@gmail.com" class="btn-primary btn-lg">
+          ✉&nbsp; mariuscristian.bancila@gmail.com
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ── Contact ───────────────────────────────────────────── -->
-  <section id="contact">
-    <img src="developer icon.png" alt="SoftLight Apps Logo" class="studio-icon" />
-    <p class="section-label">Contact</p>
-    <h2 class="section-title">Get in touch</h2>
-    <p class="section-body">
-      Have a question, feedback, or a support request? We'd love to hear from you.
-    </p>
-    <!-- CONTACT_EMAIL: Replace with your real email address -->
-    <a href="mailto:mariuscristian.bancila@gmail.com" class="btn-email"> ✉
-      &nbsp;mariuscristian.bancila@gmail.com
-    </a>
-  </section>
-
-  <!-- ── Footer ────────────────────────────────────────────── -->
+  <!-- ── Footer ──────────────────────────────────────────────── -->
   <footer>
-    <p>© 2026 SoftLight Apps · <a href="app-ads.txt">app-ads.txt</a></p>
+    <div class="container">
+      <div class="footer-brand">
+        <img src="developer icon.png" alt="" />
+        <span>© <span id="footer-year">2026</span> SoftLight Apps</span>
+      </div>
+      <nav>
+        <a href="#apps" data-i18n="footer.apps">Our apps</a>
+        <a href="app-ads.txt">app-ads.txt</a>
+      </nav>
+      <p class="footer-tagline" data-i18n="footer.tagline">
+        Building thoughtful mobile apps that make everyday life easier.
+      </p>
+    </div>
   </footer>
+
+  <script>
+    /* ─── i18n ─────────────────────────────────────────────────
+       Language resolution (same intent as medilens-web src/i18n/detect.ts):
+         1. localStorage "lang" — the user picked a language explicitly
+         2. Browser language — Romanian browsers get Romanian instantly
+         3. Geo lookup (static hosting has no server headers) — RO → Romanian
+         4. English everywhere else */
+    var I18N = {
+      en: {
+        "meta.title": "SoftLight Apps — Thoughtful mobile apps",
+        "meta.description": "SoftLight Apps is an independent mobile app studio creating privacy-first, beautifully designed apps for Android and iOS.",
+        "header.contact": "Contact",
+        "hero.eyebrow": "Independent app studio",
+        "hero.title1": "Thoughtful apps,",
+        "hero.title2": "built with care.",
+        "hero.body": "SoftLight Apps is an independent mobile studio creating privacy-first, beautifully designed apps for Android and iOS — simple to use, working offline, and putting you in control of your data.",
+        "hero.ctaApps": "See our apps",
+        "hero.ctaContact": "Get in touch",
+        "hero.trust1": "Privacy first",
+        "hero.trust2": "Works offline",
+        "hero.trust3": "Android & iOS",
+        "about.eyebrow": "About",
+        "about.title": "Who we are",
+        "about.body": "SoftLight Apps is an independent mobile app studio focused on creating privacy-first, beautifully designed apps for Android and iOS. We build tools that are simple to use, work offline, and put users in control of their data.",
+        "apps.eyebrow": "Our apps",
+        "apps.title": "What we've built",
+        "apps.medilens.badge": "Available on Android",
+        "apps.medilens.body": "MediLens is a medication scanner and reminder app that uses advanced OCR camera technology to instantly identify medicines from their labels. Supporting 6 languages and a database of 98,000+ medicines, MediLens helps users manage their medication schedules safely and confidently — all offline.",
+        "apps.medilens.f1": "📷 OCR medicine scanner",
+        "apps.medilens.f2": "💊 98,000+ medicines",
+        "apps.medilens.f3": "⏰ Smart reminders",
+        "apps.medilens.f4": "🌍 6 languages",
+        "apps.medilens.f5": "🔒 Privacy first",
+        "apps.medilens.f6": "📴 Works offline",
+        "apps.medilens.cta": "Get it on Google Play",
+        "contact.eyebrow": "Contact",
+        "contact.title": "Get in touch",
+        "contact.body": "Have a question, feedback, or a support request? We'd love to hear from you.",
+        "footer.apps": "Our apps",
+        "footer.tagline": "Building thoughtful mobile apps that make everyday life easier.",
+        "theme.toDark": "Switch to dark theme",
+        "theme.toLight": "Switch to light theme"
+      },
+      ro: {
+        "meta.title": "SoftLight Apps — Aplicații mobile create cu grijă",
+        "meta.description": "SoftLight Apps este un studio independent de aplicații mobile, care creează aplicații frumos proiectate, cu confidențialitatea pe primul loc, pentru Android și iOS.",
+        "header.contact": "Contact",
+        "hero.eyebrow": "Studio independent de aplicații",
+        "hero.title1": "Aplicații gândite atent,",
+        "hero.title2": "create cu grijă.",
+        "hero.body": "SoftLight Apps este un studio independent care creează aplicații mobile frumos proiectate, cu confidențialitatea pe primul loc, pentru Android și iOS — simple de folosit, funcționale offline și care îți lasă controlul asupra datelor tale.",
+        "hero.ctaApps": "Vezi aplicațiile noastre",
+        "hero.ctaContact": "Contactează-ne",
+        "hero.trust1": "Confidențialitate pe primul loc",
+        "hero.trust2": "Funcționează offline",
+        "hero.trust3": "Android și iOS",
+        "about.eyebrow": "Despre noi",
+        "about.title": "Cine suntem",
+        "about.body": "SoftLight Apps este un studio independent de aplicații mobile, concentrat pe crearea de aplicații frumos proiectate, care pun confidențialitatea pe primul loc, pentru Android și iOS. Construim instrumente simple de folosit, care funcționează offline și îți oferă control deplin asupra datelor tale.",
+        "apps.eyebrow": "Aplicațiile noastre",
+        "apps.title": "Ce am construit",
+        "apps.medilens.badge": "Disponibilă pe Android",
+        "apps.medilens.body": "MediLens este o aplicație de scanare a medicamentelor și mementouri, care folosește tehnologie OCR avansată pentru a identifica instantaneu medicamentele după etichetă. Cu suport pentru 6 limbi și o bază de date de peste 98.000 de medicamente, MediLens te ajută să îți gestionezi tratamentul în siguranță și cu încredere — complet offline.",
+        "apps.medilens.f1": "📷 Scaner OCR de medicamente",
+        "apps.medilens.f2": "💊 Peste 98.000 de medicamente",
+        "apps.medilens.f3": "⏰ Mementouri inteligente",
+        "apps.medilens.f4": "🌍 6 limbi",
+        "apps.medilens.f5": "🔒 Confidențialitate pe primul loc",
+        "apps.medilens.f6": "📴 Funcționează offline",
+        "apps.medilens.cta": "Descarcă de pe Google Play",
+        "contact.eyebrow": "Contact",
+        "contact.title": "Scrie-ne",
+        "contact.body": "Ai o întrebare, o sugestie sau ai nevoie de ajutor? Ne-ar face plăcere să te auzim.",
+        "footer.apps": "Aplicațiile noastre",
+        "footer.tagline": "Construim aplicații mobile atente, care fac viața de zi cu zi mai ușoară.",
+        "theme.toDark": "Comută la tema întunecată",
+        "theme.toLight": "Comută la tema luminoasă"
+      }
+    };
+
+    var currentLang = "en";
+    /* Grabbed before language detection runs — applyLang() calls
+       updateThemeLabel(), which needs this to already be set. */
+    var themeToggle = document.getElementById("theme-toggle");
+
+    function applyLang(lang) {
+      if (!I18N[lang]) lang = "en";
+      currentLang = lang;
+      var dict = I18N[lang];
+      document.documentElement.lang = lang;
+      document.title = dict["meta.title"];
+      var meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute("content", dict["meta.description"]);
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        var key = el.getAttribute("data-i18n");
+        if (dict[key]) el.textContent = dict[key];
+      });
+      document.querySelectorAll(".lang-switch button").forEach(function (btn) {
+        btn.setAttribute("aria-pressed", String(btn.getAttribute("data-lang") === lang));
+      });
+      updateThemeLabel();
+    }
+
+    document.querySelectorAll(".lang-switch button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var lang = btn.getAttribute("data-lang");
+        try { localStorage.setItem("lang", lang); } catch (e) { /* private mode */ }
+        applyLang(lang);
+      });
+    });
+
+    (function initLang() {
+      var saved = null;
+      try { saved = localStorage.getItem("lang"); } catch (e) { /* private mode */ }
+      if (saved === "en" || saved === "ro") { applyLang(saved); return; }
+
+      var browserRo = (navigator.languages || [navigator.language || ""]).some(function (l) {
+        return /^ro\b/i.test(l);
+      });
+      if (browserRo) { applyLang("ro"); return; }
+
+      // No explicit choice and a non-Romanian browser: ask where the visitor is.
+      fetch("https://api.country.is/")
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.country === "RO") applyLang("ro");
+        })
+        .catch(function () { /* offline or blocked — stay in English */ });
+    })();
+
+    /* ─── Theme toggle ─── */
+    function updateThemeLabel() {
+      var dark = document.documentElement.getAttribute("data-theme") === "dark";
+      themeToggle.setAttribute("aria-label", I18N[currentLang][dark ? "theme.toLight" : "theme.toDark"]);
+    }
+
+    themeToggle.addEventListener("click", function () {
+      var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) { /* private mode */ }
+      updateThemeLabel();
+    });
+
+    updateThemeLabel();
+    document.getElementById("footer-year").textContent = String(new Date().getFullYear());
+  </script>
 
 </body>
 </html>
