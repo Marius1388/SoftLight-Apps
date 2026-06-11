@@ -230,6 +230,8 @@ body {
 .btn-lg { padding: 14px 28px; font-size: 15px; }
 .btn-sm { padding: 8px 16px; font-size: 14px; }
 
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
 /* ─── Cards & primitives ─── */
 .card-soft {
   background: var(--color-surface-lowest);
